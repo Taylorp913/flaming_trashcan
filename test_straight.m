@@ -4,8 +4,8 @@ close all;
 x0 = -30;
 y0 = 0;
 theta0 = 0.1*pi;
-v = 35;
-e = 40;
+v = 10;
+e = 10;
 
 road_width = e*2;
 road_init_y = 0;
@@ -35,18 +35,21 @@ x = x_sig.Values.Data;
 y = y_sig.Values.Data;
 %theta = theta_sig.Values.Data;
 
-% move_y = [1:length(y)];
-% move_x = [1:length(y)];
-%  
-% move_y(1) = y(1);
-% move_x(1) = x(1);
-% for i=[2:length(y)]
-%  move_y(i)= move_y(i-1)+y(i); 
-%  move_x(i)= move_x(i-1)+x(i); 
-% end
-% 
-% %close all;
-% plot(move_x,move_y,'.-');
-%  
+move_y = [1:length(y)];
+move_x = [1:length(y)];
+ 
+move_y(1) = y(1);
+move_x(1) = x(1);
+for i=[2:length(y)]
+ move_y(i)= move_y(i-1)+y(i); 
+ move_x(i)= move_x(i-1)+x(i); 
+end
 
-plot(x,y,'.-');
+%close all;
+plot(move_x,move_y,'.-');
+box= [-50 50];
+xlim(box+50);
+ylim(box);
+ 
+
+%plot(x,y,'.-');
