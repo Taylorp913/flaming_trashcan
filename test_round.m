@@ -8,7 +8,7 @@ theta0 = pi*0.4;
 v = 10;
 e = 5;
 dt = 0.001;
-runtime = 40;
+runtime = 100;
 
 road_width = e*2;
 road_init_y = 0;
@@ -61,6 +61,7 @@ plot(x,y,'r.-');
 box= [-50 50];
 %xlim(box+50);
 %ylim(box);
- 
-
 %plot(x,y,'.-');
+
+
+
