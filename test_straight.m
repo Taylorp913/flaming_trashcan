@@ -53,3 +53,12 @@ ylim(box);
  
 
 %plot(x,y,'.-');
+
+x_loc_sig = logsout.getElement('x_loc');
+y_loc_sig = logsout.getElement('y_loc');
+%theta_sig = logsout.getElement('theta');
+
+x_loc = x_loc_sig.Values.Data;
+y_loc = y_loc_sig.Values.Data;
+%theta = theta_sig.Values.Data;
+
