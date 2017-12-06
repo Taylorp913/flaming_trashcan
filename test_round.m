@@ -1,31 +1,40 @@
+%test round
 %Test Striaght Road
 close all;
 
 x0 = -30;
-y0 = 0;
-theta0 = 0.1*pi;
+y0 = 35;
+theta0 = pi*0.4;
 v = 10;
-e = 10;
-dt = 0.01;
-runtime = 1000;
+e = 5;
+dt = 0.001;
+runtime = 40;
 
 road_width = e*2;
 road_init_y = 0;
 distance = 350;
 step = [1:distance];
 
+centers = [0 0; 0 0;0 0];
+radii = [sqrt((y0)^2+(x0)^2)+e
+         sqrt(y0^2+x0^2)
+         sqrt((y0)^2+(x0)^2)-e];
+viscircles(centers(1,:),radii(1),'LineStyle','-','Color','b');
+viscircles(centers(2,:),radii(2),'LineStyle','--','Color','y');
+viscircles(centers(3,:),radii(3),'LineStyle','-','Color','b');
+
 E_l = road_init_y + ones(1,distance)*road_width/2;
 E_r = road_init_y + ones(1,distance)*road_width/2*-1;
 Center = E_l+E_r;
 
 hold on;
-plot(step,E_l,'r--');
-plot(step,E_r,'r--');
-plot(step,Center,'y--');
+% plot(step,E_l,'r--');%outer circle
+% plot(step,E_r,'r--');
+% plot(step,Center,'y--');
 
 %ylim([-1*road_width,road_width]);
 
-sim('fig913');
+sim('fig913_cont');
 
 %logsout.plot
 
@@ -48,7 +57,7 @@ for i=[2:length(y)]
 end
 
 %close all;
-plot(move_x,move_y,'.-');
+plot(x,y,'r.-');
 box= [-50 50];
 %xlim(box+50);
 %ylim(box);
