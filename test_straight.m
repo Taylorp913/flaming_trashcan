@@ -6,6 +6,8 @@ y0 = 0;
 theta0 = 0.1*pi;
 v = 10;
 e = 10;
+dt = 0.001;
+runtime = 10000;
 
 road_width = e*2;
 road_init_y = 0;
@@ -48,8 +50,8 @@ end
 %close all;
 plot(move_x,move_y,'.-');
 box= [-50 50];
-xlim(box+50);
-ylim(box);
+%xlim(box+50);
+%ylim(box);
  
 
 %plot(x,y,'.-');
