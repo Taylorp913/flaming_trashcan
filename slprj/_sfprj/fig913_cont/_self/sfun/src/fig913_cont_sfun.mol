@@ -1,0 +1,17 @@
+fig913_cont_sfun.o
+c3_fig913_cont.o
+fig913_cont_sfun_registry.o
+
+"-L/opt/software/matlab/bin/glnxa64" "-lmwsf_runtime"
+"-L/opt/software/matlab/bin/glnxa64" "-lfixedpoint"
+"-L/opt/software/matlab/bin/glnxa64" "-lut"
+"-L/opt/software/matlab/bin/glnxa64" "-lemlrt"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwmathutil"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwblas"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwsl_log_load_blocks"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwsimulink"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwsl_sfcn_cov_bridge"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwlapack"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwsl_simtarget_core"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwsl_simtarget_instrumentation"
+"-L/opt/software/matlab/bin/glnxa64" "-lmwipp"
