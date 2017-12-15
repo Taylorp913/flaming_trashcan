@@ -9,8 +9,8 @@ road_radius = 50;
 v = 35;
 e = 5;
 
-dt = 0.001;
-runtime = 20;
+dt = 0.01;
+runtime = 16;
 
 
 road_width = e*2;

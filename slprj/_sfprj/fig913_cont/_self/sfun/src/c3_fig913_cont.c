@@ -15,7 +15,7 @@
 #define c3_IN_Stop                     ((uint8_T)3U)
 #define c3_IN_Straight                 ((uint8_T)4U)
 #define c3_const_v                     (35.0)
-#define c3_const_dt                    (0.001)
+#define c3_const_dt                    (0.01)
 
 /* Variable Declarations */
 
@@ -103,7 +103,7 @@ static void initialize_c3_fig913_cont(SFc3_fig913_contInstanceStruct
   chartInstance->c3_is_c3_fig913_cont = c3_IN_NO_ACTIVE_CHILD;
   *chartInstance->c3_dir = 1.2566370614359172;
   chartInstance->c3_v = 35.0;
-  chartInstance->c3_dt = 0.001;
+  chartInstance->c3_dt = 0.01;
   *chartInstance->c3_x = -30.0;
   *chartInstance->c3_y = 35.0;
 }
@@ -171,25 +171,31 @@ static void sf_gateway_c3_fig913_cont(SFc3_fig913_contInstanceStruct
     } else {
       switch (chartInstance->c3_is_c3_fig913_cont) {
        case c3_IN_Left:
-        if (*chartInstance->c3_d >= -*chartInstance->c3_e) {
+        if (*chartInstance->c3_u == 0.0) {
+          c3_stateChanged = true;
+          chartInstance->c3_is_c3_fig913_cont = c3_IN_Stop;
+        } else if (*chartInstance->c3_d >= -*chartInstance->c3_e) {
           c3_stateChanged = true;
           chartInstance->c3_is_c3_fig913_cont = c3_IN_Straight;
         } else {
-          if (*chartInstance->c3_u == 0.0) {
+          if (*chartInstance->c3_d <= -*chartInstance->c3_e) {
             c3_stateChanged = true;
-            chartInstance->c3_is_c3_fig913_cont = c3_IN_Stop;
+            chartInstance->c3_is_c3_fig913_cont = c3_IN_Left;
           }
         }
         break;
 
        case c3_IN_Right:
-        if (*chartInstance->c3_d <= *chartInstance->c3_e) {
+        if (*chartInstance->c3_u == 0.0) {
+          c3_stateChanged = true;
+          chartInstance->c3_is_c3_fig913_cont = c3_IN_Stop;
+        } else if (*chartInstance->c3_d <= *chartInstance->c3_e) {
           c3_stateChanged = true;
           chartInstance->c3_is_c3_fig913_cont = c3_IN_Straight;
         } else {
-          if (*chartInstance->c3_u == 0.0) {
+          if (*chartInstance->c3_d >= *chartInstance->c3_e) {
             c3_stateChanged = true;
-            chartInstance->c3_is_c3_fig913_cont = c3_IN_Stop;
+            chartInstance->c3_is_c3_fig913_cont = c3_IN_Right;
           }
         }
         break;
@@ -204,27 +210,30 @@ static void sf_gateway_c3_fig913_cont(SFc3_fig913_contInstanceStruct
                     *chartInstance->c3_e)) {
           c3_stateChanged = true;
           chartInstance->c3_is_c3_fig913_cont = c3_IN_Straight;
-        } else if ((*chartInstance->c3_u == 1.0) && (*chartInstance->c3_d <=
-                    -*chartInstance->c3_e)) {
-          c3_stateChanged = true;
-          chartInstance->c3_is_c3_fig913_cont = c3_IN_Left;
         } else {
-          c3_stateChanged = true;
-          chartInstance->c3_is_c3_fig913_cont = c3_IN_Stop;
+          if ((*chartInstance->c3_u == 1.0) && (*chartInstance->c3_d <=
+               -*chartInstance->c3_e)) {
+            c3_stateChanged = true;
+            chartInstance->c3_is_c3_fig913_cont = c3_IN_Left;
+          }
         }
         break;
 
        case c3_IN_Straight:
-        if (*chartInstance->c3_d >= *chartInstance->c3_e) {
-          c3_stateChanged = true;
-          chartInstance->c3_is_c3_fig913_cont = c3_IN_Right;
-        } else if (*chartInstance->c3_u == 0.0) {
+        if (*chartInstance->c3_u == 0.0) {
           c3_stateChanged = true;
           chartInstance->c3_is_c3_fig913_cont = c3_IN_Stop;
+        } else if (*chartInstance->c3_d >= *chartInstance->c3_e) {
+          c3_stateChanged = true;
+          chartInstance->c3_is_c3_fig913_cont = c3_IN_Right;
+        } else if (*chartInstance->c3_d <= -*chartInstance->c3_e) {
+          c3_stateChanged = true;
+          chartInstance->c3_is_c3_fig913_cont = c3_IN_Left;
         } else {
-          if (*chartInstance->c3_d <= -*chartInstance->c3_e) {
+          if ((real_T)(-*chartInstance->c3_e <= *chartInstance->c3_d) <=
+              *chartInstance->c3_e) {
             c3_stateChanged = true;
-            chartInstance->c3_is_c3_fig913_cont = c3_IN_Left;
+            chartInstance->c3_is_c3_fig913_cont = c3_IN_Straight;
           }
         }
         break;
@@ -281,36 +290,55 @@ static void zeroCrossings_c3_fig913_cont(SFc3_fig913_contInstanceStruct
     } else {
       switch (chartInstance->c3_is_c3_fig913_cont) {
        case c3_IN_Left:
-        if (*chartInstance->c3_d >= -*chartInstance->c3_e) {
+        if (*chartInstance->c3_u == 0.0) {
+          c3_stateChanged = true;
+        } else if (*chartInstance->c3_d >= -*chartInstance->c3_e) {
           c3_stateChanged = true;
         } else {
-          if (*chartInstance->c3_u == 0.0) {
+          if (*chartInstance->c3_d <= -*chartInstance->c3_e) {
             c3_stateChanged = true;
           }
         }
         break;
 
        case c3_IN_Right:
-        if (*chartInstance->c3_d <= *chartInstance->c3_e) {
+        if (*chartInstance->c3_u == 0.0) {
+          c3_stateChanged = true;
+        } else if (*chartInstance->c3_d <= *chartInstance->c3_e) {
           c3_stateChanged = true;
         } else {
-          if (*chartInstance->c3_u == 0.0) {
+          if (*chartInstance->c3_d >= *chartInstance->c3_e) {
             c3_stateChanged = true;
           }
         }
         break;
 
        case c3_IN_Stop:
-        c3_stateChanged = true;
+        if ((*chartInstance->c3_u == 1.0) && (*chartInstance->c3_d >=
+             *chartInstance->c3_e)) {
+          c3_stateChanged = true;
+        } else if ((*chartInstance->c3_u == 1.0) && ((real_T)
+                    (-*chartInstance->c3_e <= *chartInstance->c3_d) <=
+                    *chartInstance->c3_e)) {
+          c3_stateChanged = true;
+        } else {
+          if ((*chartInstance->c3_u == 1.0) && (*chartInstance->c3_d <=
+               -*chartInstance->c3_e)) {
+            c3_stateChanged = true;
+          }
+        }
         break;
 
        case c3_IN_Straight:
-        if (*chartInstance->c3_d >= *chartInstance->c3_e) {
+        if (*chartInstance->c3_u == 0.0) {
           c3_stateChanged = true;
-        } else if (*chartInstance->c3_u == 0.0) {
+        } else if (*chartInstance->c3_d >= *chartInstance->c3_e) {
+          c3_stateChanged = true;
+        } else if (*chartInstance->c3_d <= -*chartInstance->c3_e) {
           c3_stateChanged = true;
         } else {
-          if (*chartInstance->c3_d <= -*chartInstance->c3_e) {
+          if ((real_T)(-*chartInstance->c3_e <= *chartInstance->c3_d) <=
+              *chartInstance->c3_e) {
             c3_stateChanged = true;
           }
         }
@@ -676,10 +704,10 @@ extern void utFree(void*);
 
 void sf_c3_fig913_cont_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2908922319U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(434026896U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1429379038U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(93655432U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(3415009521U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1164116433U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2815298379U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(3403521306U);
 }
 
 mxArray* sf_c3_fig913_cont_get_post_codegen_info(void);
@@ -693,7 +721,7 @@ mxArray *sf_c3_fig913_cont_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("TjO1O1DpCPKYPl2XB2VVJG");
+    mxArray *mxChecksum = mxCreateString("YEX5HsujB6zWUBWLip3EsE");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -919,7 +947,7 @@ static const mxArray *sf_get_sim_state_info_c3_fig913_cont(void)
 
 static const char* sf_get_instance_specialization(void)
 {
-  return "s7p0L2aZKxJxmJZCJvVpIEC";
+  return "sZc5nnS7pfXx9HuSKIhsCQB";
 }
 
 static void sf_opaque_initialize_c3_fig913_cont(void *chartInstanceVar)
@@ -1064,10 +1092,10 @@ static void mdlSetWorkWidths_c3_fig913_cont(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(1193578076U));
-  ssSetChecksum1(S,(1644861310U));
-  ssSetChecksum2(S,(3901864236U));
-  ssSetChecksum3(S,(3716514028U));
+  ssSetChecksum0(S,(1365967913U));
+  ssSetChecksum1(S,(2348319367U));
+  ssSetChecksum2(S,(1106476761U));
+  ssSetChecksum3(S,(2416918916U));
   ssSetNumContStates(S,3);
   ssSetExplicitFCSSCtrl(S,1);
   ssSetStateSemanticsClassicAndSynchronous(S, true);
